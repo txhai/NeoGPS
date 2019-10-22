@@ -199,7 +199,7 @@
 //#define NMEAGPS_SAVE_TALKER_ID
 //#define NMEAGPS_PARSE_TALKER_ID
 
-//#define NMEAGPS_PARSE_PROPRIETARY
+#define NMEAGPS_PARSE_PROPRIETARY
 #ifdef NMEAGPS_PARSE_PROPRIETARY
   //#define NMEAGPS_SAVE_MFR_ID
   #define NMEAGPS_PARSE_MFR_ID
@@ -239,7 +239,7 @@
 // If not defined, virtuals are not used, with a slight size (2 bytes) and 
 // execution time savings.
 
-//#define NMEAGPS_DERIVED_TYPES
+#define NMEAGPS_DERIVED_TYPES
 
 #ifdef NMEAGPS_DERIVED_TYPES
   #define NMEAGPS_VIRTUAL virtual
@@ -301,7 +301,7 @@
 // Sometimes, a little extra space is needed to parse an intermediate form.
 // This config items enables extra space.
 
-//#define NMEAGPS_PARSING_SCRATCHPAD
+#define NMEAGPS_PARSING_SCRATCHPAD
 
 //------------------------------------------------------
 // If you need to know the exact UTC time at *any* time,
