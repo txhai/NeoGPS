@@ -197,6 +197,7 @@ namespace ublox {
       uint8_t num_ch_use;
       uint8_t num_cfg_block;
 
+      // Every GNSS
       struct block_t{        
         struct enable_mask_t{
           bool enabled    :1,
@@ -218,11 +219,14 @@ namespace ublox {
           struct enable_mask_t status;
           uint32_t status_word;
         } __attribute__((packed));
-      }
+      } __attribute__((packed));
 
+      block_t blocks[4];
+      
+      /*
       static uint16_t size_for(uint8_t num_block)
       {
-        return sizeof(cfg_gnss_t) + (uint16_t)num_block * sizeof(block_t);
+        return sizeof(cfg_gnss_t) + ((uint16_t)num_block - 1) * sizeof(block_t);
       }
 
       void init( uint8_t max_blocks )
@@ -230,7 +234,9 @@ namespace ublox {
         msg_class = UBX_NAV;
         msg_id    = UBX_CFG_GNSS;
         length    = size_for(max_blocks) - sizeof(ublox::msg_t);
-      }
+      }*/
+
+      cfg_gnss_t() : msg_t( UBX_NAV, UBX_CFG_GNSS, UBX_MSG_LEN(*this) ) {};
     } __attribute__((packed));
 
     //  Navigation Engine Expert Settings
