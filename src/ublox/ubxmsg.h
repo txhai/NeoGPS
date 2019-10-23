@@ -190,53 +190,26 @@ namespace ublox {
     }  __attribute__((packed));
 
     // CFG GNSS Information
-
     struct cfg_gnss_t: msg_t{
+      struct block_t{
+        uint8_t gnss_id;
+        uint8_t min_track_ch;
+        uint8_t max_track_ch;
+        uint8_t _reserved;
+        uint32_t flags;
+        bool is_enabled(){
+          //based on first bit of flags
+          return (1 & (flags >> 0));
+        }
+      } __attribute__((packed));
+
       uint8_t msg_ver;
       uint8_t num_ch_hw;
       uint8_t num_ch_use;
       uint8_t num_cfg_block;
+      block_t blocks[4]; //Neo-7m
 
-      // Every GNSS
-      struct block_t{        
-        struct enable_mask_t{
-          bool enabled    :1,
-          int _unused_    :31
-        } __attribute__((packed));
-
-        enum {
-          UBX_GPS     = 0,
-          UBX_SBAS    = 1,
-          UBX_QZSS    = 5,
-          UBX_GLONASS = 6
-        } gnss_id :8;
-
-        uint8_t min_track_ch;
-        uint8_t max_track_ch;
-        uint8_t _reserved;
-
-        union {
-          struct enable_mask_t status;
-          uint32_t status_word;
-        } __attribute__((packed));
-      } __attribute__((packed));
-
-      block_t blocks[4];
-      
-      /*
-      static uint16_t size_for(uint8_t num_block)
-      {
-        return sizeof(cfg_gnss_t) + ((uint16_t)num_block - 1) * sizeof(block_t);
-      }
-
-      void init( uint8_t max_blocks )
-      {
-        msg_class = UBX_NAV;
-        msg_id    = UBX_CFG_GNSS;
-        length    = size_for(max_blocks) - sizeof(ublox::msg_t);
-      }*/
-
-      cfg_gnss_t() : msg_t( UBX_NAV, UBX_CFG_GNSS, UBX_MSG_LEN(*this) ) {};
+      cfg_gnss_t(): msg_t( UBX_CFG, UBX_CFG_GNSS, UBX_MSG_LEN(*this)){};
     } __attribute__((packed));
 
     //  Navigation Engine Expert Settings
